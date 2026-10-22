@@ -36,7 +36,10 @@ def main(page: ft.Page):
     lista_strumenti = ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
 
     # Tutti i TextField per le info necessarie per aggiungere un nuovo strumento (tipo, marca, anno, contatore posti)
-    # TODO
+    f1 = ft.TextField(label="tipo:", height=60)
+    f2 = ft.TextField(label="marca:", height=60)
+    f3 = ft.TextField(label="anno di acquisto:", height=60)
+    txtOut = ft.TextField(width=100, disabled=True, value="0", text_align=ft.TextAlign.CENTER)
 
     # --- FUNZIONI APP ---
     def aggiorna_lista_strumenti():
@@ -54,15 +57,42 @@ def main(page: ft.Page):
         deposito.set_responsabile(input_responsabile.value)
         txt_responsabile.value = f"Responsabile: {deposito.get_responsabile()}"
 
-    # Handlers per la gestione dei pulsanti utili all'inserimento di un nuovo strumento
-    # TODO
+
+    def piu(e):
+        valoreCorrente = txtOut.value
+        txtOut.value = str(int(valoreCorrente) + 1)
+        txtOut.update()
+
+    def meno(e):
+        valoreCorrente = txtOut.value
+        txtOut.value = str(int(valoreCorrente) - 1)
+        txtOut.update()
+
+    def azzera(e):
+        f1.value=""
+        f2.value=""
+        f3.value=""
+        txtOut.value="0"
+        page.update()
+
+    def gestioneAggiunta(e):
+        try:
+            anno = int(f3.value)
+            posti = int(txtOut.value)
+            deposito.aggiungi_strumento(f1.value, f2.value, f3.value, txtOut.value)
+            aggiorna_lista_strumenti()
+        except ValueError:
+            alert.show_alert("❌Errore, inserisci valori numerici validi per anno e posti")
+        azzera(e)
 
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
     pulsante_conferma_responsabile = ft.Button("Conferma", on_click=conferma_responsabile)
 
-    # Pulsanti per la gestione dell'inserimento di un nuovo strumento
-    # TODO
+    btnMeno = ft.IconButton(icon=ft.Icons.REMOVE, icon_color="green", icon_size=24, on_click=meno)
+    btnPiu = ft.IconButton(icon=ft.Icons.ADD, icon_color="green", icon_size=24, on_click=piu)
+
+
 
     # --- LAYOUT ---
     page.add(
@@ -80,7 +110,9 @@ def main(page: ft.Page):
                alignment=ft.MainAxisAlignment.CENTER),
 
         # Sezione 3
-        # TODO
+        ft.Text("Aggiungi nuovo strumento",size=15),
+        ft.Row([f1, f2, f3, btnMeno,txtOut,btnPiu],alignment=ft.MainAxisAlignment.CENTER),
+        ft.Button("Aggiungi strumento",on_click=gestioneAggiunta),
 
         # Sezione 4
         ft.Divider(),
