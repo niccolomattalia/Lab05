@@ -64,9 +64,10 @@ def main(page: ft.Page):
         txtOut.update()
 
     def meno(e):
-        valoreCorrente = txtOut.value
-        txtOut.value = str(int(valoreCorrente) - 1)
-        txtOut.update()
+        if int(txtOut.value)>0:
+            valoreCorrente = txtOut.value
+            txtOut.value = str(int(valoreCorrente) - 1)
+            txtOut.update()
 
     def azzera(e):
         f1.value=""
