@@ -39,7 +39,7 @@ def main(page: ft.Page):
     f1 = ft.TextField(label="tipo:", height=60)
     f2 = ft.TextField(label="marca:", height=60)
     f3 = ft.TextField(label="anno di acquisto:", height=60)
-    txtOut = ft.TextField(width=100, disabled=True, value="0", text_align=ft.TextAlign.CENTER)
+    txtOut = ft.TextField(width=100, disabled=True, value="0", text_align=ft.TextAlign.CENTER, label="Valore")
 
     # --- FUNZIONI APP ---
     def aggiorna_lista_strumenti():
@@ -81,6 +81,8 @@ def main(page: ft.Page):
             posti = int(txtOut.value)
             deposito.aggiungi_strumento(f1.value, f2.value, f3.value, txtOut.value)
             aggiorna_lista_strumenti()
+            if f1.value == "" or f2.value == "" or f3.value == "":
+                alert.show_alert("❌Errore, inserisci tutti i campi richiesti")
         except ValueError:
             alert.show_alert("❌Errore, inserisci valori numerici validi per anno e posti")
         azzera(e)
