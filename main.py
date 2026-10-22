@@ -120,5 +120,4 @@ def main(page: ft.Page):
         lista_strumenti,
     )
     aggiorna_lista_strumenti()
-
 ft.run(main)
